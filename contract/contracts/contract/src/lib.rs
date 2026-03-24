@@ -1,6 +1,6 @@
 #![no_std]
 use soroban_sdk::{
-    contract, contractimpl, contracttype, Address, Env, String, Vec, symbol_short
+    contract, contractimpl, contracttype, Address, Env, String
 };
 
 #[contract]
@@ -26,7 +26,7 @@ pub struct Bounty {
 #[contractimpl]
 impl BountyContract {
 
-    // Create bounty
+    // Create a new bounty
     pub fn create_bounty(
         env: Env,
         creator: Address,
@@ -35,10 +35,10 @@ impl BountyContract {
     ) -> u32 {
         creator.require_auth();
 
-        let mut count: u32 = env.storage().instance().get(&DataKey::Count).unwrap_or(0);
+        let count: u32 = env.storage().instance().get(&DataKey::Count).unwrap_or(0);
 
         let bounty = Bounty {
-            creator: creator.clone(),
+            creator,
             description,
             reward,
             completed: false,
@@ -48,16 +48,10 @@ impl BountyContract {
         env.storage().instance().set(&DataKey::Bounty(count), &bounty);
         env.storage().instance().set(&DataKey::Count, &(count + 1));
 
-        // 🔔 Emit event
-        env.events().publish(
-            (symbol_short!("created"), creator),
-            count,
-        );
-
         count
     }
 
-    // Complete bounty
+    // Complete a bounty
     pub fn complete_bounty(env: Env, bounty_id: u32, hunter: Address) {
         hunter.require_auth();
 
@@ -72,18 +66,12 @@ impl BountyContract {
         }
 
         bounty.completed = true;
-        bounty.hunter = Some(hunter.clone());
+        bounty.hunter = Some(hunter);
 
         env.storage().instance().set(&DataKey::Bounty(bounty_id), &bounty);
-
-        // 🔔 Emit event
-        env.events().publish(
-            (symbol_short!("completed"), hunter),
-            bounty_id,
-        );
     }
 
-    // Get bounty
+    // Get bounty details
     pub fn get_bounty(env: Env, bounty_id: u32) -> Bounty {
         env.storage()
             .instance()
@@ -91,7 +79,7 @@ impl BountyContract {
             .expect("Bounty not found")
     }
 
-    // Total count
+    // Get total bounty count
     pub fn get_count(env: Env) -> u32 {
         env.storage().instance().get(&DataKey::Count).unwrap_or(0)
     }
