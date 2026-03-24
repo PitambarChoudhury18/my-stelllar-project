@@ -30,7 +30,7 @@ This project demonstrates how blockchain technology can be used to build decentr
 
 ## 🔗 Deployed Smart Contract Link
 
-XXX
+https://stellar.expert/explorer/testnet/contract/CDGJB4KZHVC7SRJZL7KAXMNTX6OS7HUXAXL6XM6L436FZXAMJZSSFS46
 
 ---
 
