@@ -1,6 +1,8 @@
 # 🚀 Stellar Soroban Bounty Platform
 
 ## 📌 Project Description
+<img width="1919" height="995" alt="image" src="https://github.com/user-attachments/assets/b8ca2de8-5d63-4ce8-8be2-73ef2532bfc6" />
+
 
 The **Bounty Platform** is a decentralized application built using Stellar's Soroban smart contracts. It enables users to create and complete bounties in a transparent and trustless environment.
 
